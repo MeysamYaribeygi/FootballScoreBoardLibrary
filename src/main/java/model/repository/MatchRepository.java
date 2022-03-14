@@ -12,5 +12,8 @@ public interface MatchRepository {
 
     public Match getMatchById(String matchId) throws MatchNotFoundException;
 
+    public void removeMatch(Match match) throws MatchNotFoundException;
+
+
 
 }

@@ -37,6 +37,14 @@ public class FootballMatchRepository implements MatchRepository {
         throw new MatchNotFoundException(matchId);
     }
 
+    @Override
+    public void removeMatch(Match match) throws MatchNotFoundException {
+        if (!MATCHES_DATA.containsKey(match.getId()))
+            throw new MatchNotFoundException(match.getId());
+        MATCHES_DATA.remove(match.getId());
+    }
+
+
     public static Map<String, Match> getMatchesData() {
         return MATCHES_DATA;
     }
