@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import util.exception.InvalidScoreException;
 import util.exception.MatchAlreadyExistException;
 import util.exception.MatchNotFoundException;
+import util.exception.TeamAlreadyExistException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +36,7 @@ public class FootballScoreBoard implements ScoreBoard {
     public void startGame(Match match) {
         try {
             matchRepository.addMatch(match);
-        } catch (MatchAlreadyExistException e) {
+        } catch (MatchAlreadyExistException | TeamAlreadyExistException e) {
             logger.error(e.getMessage());
         }
     }

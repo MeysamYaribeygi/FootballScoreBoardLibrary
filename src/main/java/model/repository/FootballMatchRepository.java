@@ -7,13 +7,14 @@ import org.slf4j.LoggerFactory;
 import util.exception.InvalidScoreException;
 import util.exception.MatchAlreadyExistException;
 import util.exception.MatchNotFoundException;
+import util.exception.TeamAlreadyExistException;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FootballMatchRepository implements MatchRepository {
-    private static final Logger logger = LoggerFactory.getLogger ( FootballMatchRepository.class );
+    private static final Logger logger = LoggerFactory.getLogger(FootballMatchRepository.class);
 
     private static Map<String, Match> MATCHES_DATA = new HashMap<>();
 
@@ -28,9 +29,10 @@ public class FootballMatchRepository implements MatchRepository {
         return obj;
     }
 
-    public void addMatch(Match match) throws MatchAlreadyExistException {
+    public void addMatch(Match match) throws MatchAlreadyExistException, TeamAlreadyExistException {
         if (MATCHES_DATA.containsKey(match.getId()))
             throw new MatchAlreadyExistException();
+        checkTeams(match);
         match.setInsertingTime(new Date());
         MATCHES_DATA.put(match.getId(), match);
         try {
@@ -65,6 +67,17 @@ public class FootballMatchRepository implements MatchRepository {
             throw new MatchNotFoundException(match.getId());
         MATCHES_DATA.remove(match.getId());
     }
+
+    private void checkTeams(Match match) throws TeamAlreadyExistException {
+        for (Match m : MATCHES_DATA.values()) {
+            if (match.getHomeTeam().equals(m.getHomeTeam()) || match.getHomeTeam().equals(m.getAwayTeam()))
+                throw new TeamAlreadyExistException(match.getHomeTeam().getName());
+            if (match.getAwayTeam().equals(m.getHomeTeam()) || match.getAwayTeam().equals(m.getAwayTeam()))
+                throw new TeamAlreadyExistException(match.getAwayTeam().getName());
+        }
+    }
+
+
     public static Map<String, Match> getMatchesData() {
         return MATCHES_DATA;
     }
