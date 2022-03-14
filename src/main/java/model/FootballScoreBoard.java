@@ -4,6 +4,8 @@ import model.entity.FootballMatch;
 import model.entity.Match;
 import model.repository.FootballMatchRepository;
 import model.repository.MatchRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.exception.InvalidScoreException;
 import util.exception.MatchAlreadyExistException;
 import util.exception.MatchNotFoundException;
@@ -14,6 +16,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FootballScoreBoard implements ScoreBoard {
+
+    private static final Logger logger = LoggerFactory.getLogger(FootballScoreBoard.class);
+
     private MatchRepository matchRepository = FootballMatchRepository.getInstance();
     private static FootballScoreBoard obj = null;
 
@@ -25,22 +30,22 @@ public class FootballScoreBoard implements ScoreBoard {
             obj = new FootballScoreBoard();
         return obj;
     }
+
     @Override
     public void startGame(Match match) {
         try {
             matchRepository.addMatch(match);
         } catch (MatchAlreadyExistException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
+
     @Override
     public void updateScore(Match match) {
         try {
             matchRepository.updateMatch(match);
-        } catch (MatchNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvalidScoreException e) {
-            e.printStackTrace();
+        } catch (MatchNotFoundException | InvalidScoreException e) {
+            logger.error(e.getMessage());
         }
     }
 
@@ -49,9 +54,10 @@ public class FootballScoreBoard implements ScoreBoard {
         try {
             matchRepository.removeMatch(match);
         } catch (MatchNotFoundException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
+
     @Override
     public List<Match> getSummary() {
         List<Match> matches = FootballMatchRepository.getMatchesData().values().stream().collect(Collectors.toCollection(ArrayList::new));

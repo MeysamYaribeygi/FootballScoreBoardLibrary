@@ -3,8 +3,11 @@ import model.ScoreBoard;
 import model.entity.FootballMatch;
 import model.entity.FootballTeam;
 import model.entity.Match;
+import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.exception.MatchAlreadyExistException;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -13,6 +16,12 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class FootballScoreBoardTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(FootballScoreBoardTest.class);
+    @Before
+    public void initialization() {
+        BasicConfigurator.configure();
+    }
 
     @Test
     public void sizeOfFreeScoreBoard() {

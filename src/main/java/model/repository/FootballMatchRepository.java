@@ -2,6 +2,8 @@ package model.repository;
 
 import model.entity.FootballMatch;
 import model.entity.Match;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.exception.InvalidScoreException;
 import util.exception.MatchAlreadyExistException;
 import util.exception.MatchNotFoundException;
@@ -11,6 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FootballMatchRepository implements MatchRepository {
+    private static final Logger logger = LoggerFactory.getLogger ( FootballMatchRepository.class );
+
     private static Map<String, Match> MATCHES_DATA = new HashMap<>();
 
     private static FootballMatchRepository obj = null;
@@ -32,7 +36,7 @@ public class FootballMatchRepository implements MatchRepository {
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 

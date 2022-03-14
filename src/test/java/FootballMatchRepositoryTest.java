@@ -3,17 +3,22 @@ import model.entity.FootballMatch;
 import model.entity.FootballTeam;
 import model.repository.FootballMatchRepository;
 import model.repository.MatchRepository;
+import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import util.exception.InvalidScoreException;
 import util.exception.MatchAlreadyExistException;
 import util.exception.MatchNotFoundException;
 
 public class FootballMatchRepositoryTest {
     private MatchRepository footballMatchRepository = FootballMatchRepository.getInstance();
+    private static final Logger logger = LoggerFactory.getLogger(FootballMatchRepositoryTest.class);
 
     @Before
-    public void matchRepositoryInitialization() {
+    public void initialization() {
+        BasicConfigurator.configure();
         try {
             footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Mexico"), new FootballTeam("Canada")));
             footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Spain"), new FootballTeam("Brazil")));
@@ -21,7 +26,7 @@ public class FootballMatchRepositoryTest {
             footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Uruguay"), new FootballTeam("Italy")));
             footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Argentina"), new FootballTeam("Australia")));
         } catch (MatchAlreadyExistException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
