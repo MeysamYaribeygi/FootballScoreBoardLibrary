@@ -42,6 +42,6 @@ public class FootballMatchRepositoryTest {
 
     @Test(expected = MatchNotFoundException.class)
     public void finishNewMatchReturnsMatchNotFoundException() throws MatchNotFoundException, InvalidScoreException {
-        footballMatchRepository.updateMatch(new FootballMatch(new FootballTeam("Finland"), new FootballTeam("Sweden")));
+        footballMatchRepository.removeMatch(new FootballMatch(new FootballTeam("Finland"), new FootballTeam("Sweden")));
     }
 }
