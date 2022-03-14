@@ -5,17 +5,39 @@ public class FootballMatch extends Match {
     private int homeFootballTeamScore = 0;
     private int awayFootballTeamScore = 0;
 
-    public FootballMatch(Team homeFootballTeam, Team awayFootballTeam) {
-        super(homeFootballTeam, awayFootballTeam);
-        setTotalScore(0);
+    private FootballMatch(FootballMatchBuilder builder) {
+        super(builder.getHomeTeam(), builder.getAwayTeam());
+        setHomeFootballTeamScore(builder.homeFootballTeamScore);
+        setAwayFootballTeamScore(builder.awayFootballTeamScore);
+        setTotalScore(builder.homeFootballTeamScore + builder.awayFootballTeamScore);
     }
 
-    public FootballMatch(Team homeFootballTeam, Team awayFootballTeam,
-                                 int homeFootballTeamScore, int awayFootballTeamScore) {
-        super(homeFootballTeam, awayFootballTeam);
-        setHomeFootballTeamScore(homeFootballTeamScore);
-        setAwayFootballTeamScore(awayFootballTeamScore);
-        setTotalScore(homeFootballTeamScore + awayFootballTeamScore);
+    public static class FootballMatchBuilder extends Match {
+        private Integer totalScore;
+        private int homeFootballTeamScore = 0;
+        private int awayFootballTeamScore = 0;
+
+        @Override
+        public void setTotalScore(int totalScore) {
+            this.totalScore = totalScore;
+        }
+
+        public FootballMatchBuilder(Team homeFootballTeam, Team awayFootballTeam) {
+            super(homeFootballTeam, awayFootballTeam);
+            setTotalScore(0);
+        }
+
+        public FootballMatchBuilder addScore(int homeFootballTeamScore, int awayFootballTeamScore) {
+            this.homeFootballTeamScore = homeFootballTeamScore;
+            this.awayFootballTeamScore = awayFootballTeamScore;
+            setTotalScore(homeFootballTeamScore + awayFootballTeamScore);
+            return this;
+        }
+
+        public FootballMatch build() {
+            FootballMatch footballMatch = new FootballMatch(this);
+            return footballMatch;
+        }
     }
 
     @Override

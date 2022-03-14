@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import util.exception.InvalidScoreException;
 import util.exception.MatchAlreadyExistException;
 import util.exception.MatchNotFoundException;
+import util.exception.TeamNotFoundException;
 
 public class FootballMatchRepositoryTest {
     private MatchRepository footballMatchRepository = FootballMatchRepository.getInstance();
@@ -20,11 +21,11 @@ public class FootballMatchRepositoryTest {
     public void initialization() {
         BasicConfigurator.configure();
         try {
-            footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Mexico"), new FootballTeam("Canada")));
-            footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Spain"), new FootballTeam("Brazil")));
-            footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Germany"), new FootballTeam("France")));
-            footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Uruguay"), new FootballTeam("Italy")));
-            footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Argentina"), new FootballTeam("Australia")));
+            footballMatchRepository.addMatch(BuildMatch.getMatch("Mexico", "Canada"));
+            footballMatchRepository.addMatch(BuildMatch.getMatch("Spain", "Brazil"));
+            footballMatchRepository.addMatch(BuildMatch.getMatch("Germany", "France"));
+            footballMatchRepository.addMatch(BuildMatch.getMatch("Uruguay", "Italy"));
+            footballMatchRepository.addMatch(BuildMatch.getMatch("Argentina", "Australia"));
         } catch (MatchAlreadyExistException e) {
             logger.error(e.getMessage());
         }
@@ -32,21 +33,21 @@ public class FootballMatchRepositoryTest {
 
     @Test(expected = MatchAlreadyExistException.class)
     public void addSameMatchesReturnsMatchAlreadyExistException() throws MatchAlreadyExistException {
-        footballMatchRepository.addMatch(new FootballMatch(new FootballTeam("Mexico"), new FootballTeam("Canada")));
+        footballMatchRepository.addMatch(BuildMatch.getMatch("Mexico", "Canada"));
     }
 
     @Test(expected = MatchNotFoundException.class)
-    public void updateNewMatchReturnsMatchNotFoundException() throws MatchNotFoundException, InvalidScoreException {
-        footballMatchRepository.updateMatch(new FootballMatch(new FootballTeam("Norway"), new FootballTeam("Denmark"), 1, 1));
+    public void updateNewMatchReturnsMatchNotFoundException() throws MatchNotFoundException, InvalidScoreException, TeamNotFoundException {
+        footballMatchRepository.updateMatch(BuildMatch.getMatch("Norway", "Denmark", 1, 1));
     }
 
     @Test(expected = InvalidScoreException.class)
-    public void updateMatchWithNegativeScoreReturnsInvalidScoreException() throws MatchNotFoundException, InvalidScoreException {
-        footballMatchRepository.updateMatch(new FootballMatch(new FootballTeam("Mexico"), new FootballTeam("Canada"), -1, 1));
+    public void updateMatchWithNegativeScoreReturnsInvalidScoreException() throws MatchNotFoundException, InvalidScoreException, TeamNotFoundException {
+        footballMatchRepository.updateMatch(BuildMatch.getMatch("Mexico", "Canada", -1, 1));
     }
 
     @Test(expected = MatchNotFoundException.class)
-    public void finishNewMatchReturnsMatchNotFoundException() throws MatchNotFoundException, InvalidScoreException {
-        footballMatchRepository.removeMatch(new FootballMatch(new FootballTeam("Finland"), new FootballTeam("Sweden")));
+    public void finishNewMatchReturnsMatchNotFoundException() throws MatchNotFoundException, InvalidScoreException, TeamNotFoundException {
+        footballMatchRepository.removeMatch(BuildMatch.getMatch("Finland", "Sweden"));
     }
 }

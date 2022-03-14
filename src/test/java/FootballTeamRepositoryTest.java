@@ -11,7 +11,7 @@ import util.exception.TeamAlreadyExistException;
 import util.exception.TeamNotFoundException;
 
 public class FootballTeamRepositoryTest {
-    private TeamRepository teamRepository = FootballTeamRepository.getInstance();
+    public static TeamRepository teamRepository = FootballTeamRepository.getInstance();
     private static final Logger logger = LoggerFactory.getLogger(FootballTeamRepositoryTest.class);
 
     @Before

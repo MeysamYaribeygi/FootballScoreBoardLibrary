@@ -1,23 +1,19 @@
 import model.FootballScoreBoard;
 import model.ScoreBoard;
 import model.entity.FootballMatch;
-import model.entity.FootballTeam;
 import model.entity.Match;
 import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.exception.MatchAlreadyExistException;
 
 import static org.junit.Assert.assertArrayEquals;
-
-
 import static org.junit.Assert.assertEquals;
 
 public class FootballScoreBoardTest {
-
     private static final Logger logger = LoggerFactory.getLogger(FootballScoreBoardTest.class);
+
     @Before
     public void initialization() {
         BasicConfigurator.configure();
@@ -32,19 +28,18 @@ public class FootballScoreBoardTest {
     @Test
     public void sizeOfScoreBoardWithOneMatch() {
         ScoreBoard footballScoreBoard = FootballScoreBoard.getScoreBoard();
-        footballScoreBoard.startGame(new FootballMatch(new FootballTeam("Italy"), new FootballTeam("Norway")));
+        footballScoreBoard.startGame(BuildMatch.getMatch("Italy", "Norway"));
         assertEquals(1, footballScoreBoard.getSummary().size());
     }
 
     @Test
     public void getSummaryTest() {
         ScoreBoard footballScoreBoard = FootballScoreBoard.getScoreBoard();
-
-        FootballMatch mexico0_canada5 = new FootballMatch(new FootballTeam("Mexico"), new FootballTeam("Canada"), 0, 5);
-        FootballMatch spain10_brazil2 = new FootballMatch(new FootballTeam("Spain"), new FootballTeam("Brazil"), 10, 2);
-        FootballMatch germany2_france2 = new FootballMatch(new FootballTeam("Germany"), new FootballTeam("France"), 2, 2);
-        FootballMatch uruguay6_italy6 = new FootballMatch(new FootballTeam("Uruguay"), new FootballTeam("Italy"), 6, 6);
-        FootballMatch argentina3_australia1 = new FootballMatch(new FootballTeam("Argentina"), new FootballTeam("Australia"), 3, 1);
+        FootballMatch mexico0_canada5 = BuildMatch.getMatch("Mexico", "Canada");
+        FootballMatch spain10_brazil2 = BuildMatch.getMatch("Spain", "Brazil");
+        FootballMatch germany2_france2 = BuildMatch.getMatch("Germany", "France");
+        FootballMatch uruguay6_italy6 = BuildMatch.getMatch("Uruguay", "Italy");
+        FootballMatch argentina3_australia1 = BuildMatch.getMatch("Argentina", "Australia");
 
         footballScoreBoard.startGame(mexico0_canada5);
         footballScoreBoard.startGame(spain10_brazil2);
@@ -52,6 +47,11 @@ public class FootballScoreBoardTest {
         footballScoreBoard.startGame(uruguay6_italy6);
         footballScoreBoard.startGame(argentina3_australia1);
 
+        footballScoreBoard.updateScore(BuildMatch.getMatch("Mexico", "Canada", 0, 5));
+        footballScoreBoard.updateScore(BuildMatch.getMatch("Spain", "Brazil", 10, 2));
+        footballScoreBoard.updateScore(BuildMatch.getMatch("Germany", "France", 2, 2));
+        footballScoreBoard.updateScore(BuildMatch.getMatch("Uruguay", "Italy", 6, 6));
+        footballScoreBoard.updateScore(BuildMatch.getMatch("Argentina", "Australia", 3, 1));
         Match[] expectedArray = {
                 uruguay6_italy6,
                 spain10_brazil2,
@@ -61,5 +61,4 @@ public class FootballScoreBoardTest {
         };
         assertArrayEquals(expectedArray, footballScoreBoard.getSummary().toArray());
     }
-
 }
