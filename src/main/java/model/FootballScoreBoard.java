@@ -15,8 +15,11 @@ public class FootballScoreBoard {
         List<Match> matches = FootballMatchRepository.getMatchesData().values().stream().collect(Collectors.toCollection(ArrayList::new));
         return matches;
     }
-
-    public void startGame(Match match) throws MatchAlreadyExistException {
-        matchRepository.addMatch(match);
+    public void startGame(Match match) {
+        try {
+            matchRepository.addMatch(match);
+        } catch (MatchAlreadyExistException e) {
+            e.printStackTrace();
+        }
     }
 }
