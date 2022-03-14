@@ -7,7 +7,6 @@ public abstract class Match {
 
     public Match() {
     }
-
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;

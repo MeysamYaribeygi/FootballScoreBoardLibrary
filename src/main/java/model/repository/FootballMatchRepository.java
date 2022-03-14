@@ -14,9 +14,7 @@ public class FootballMatchRepository implements MatchRepository {
             throw new MatchAlreadyExistException();
         MATCHES_DATA.put(match.getId(), match);
     }
-
     public static Map<String, Match> getMatchesData() {
         return MATCHES_DATA;
     }
-
 }
