@@ -7,6 +7,9 @@ public abstract class Match {
 
     public Match() {
     }
+
+    public abstract void setTotalScore(int totalScore);
+
     public Match(Team homeTeam, Team awayTeam) {
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -36,6 +39,5 @@ public abstract class Match {
     public void setAwayTeam(Team awayTeam) {
         this.awayTeam = awayTeam;
     }
-
 
 }
