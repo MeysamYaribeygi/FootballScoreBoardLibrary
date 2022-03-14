@@ -42,6 +42,4 @@ public class FootballMatch extends Match {
     public void setAwayFootballTeamScore(int awayFootballTeamScore) {
         this.awayFootballTeamScore = awayFootballTeamScore;
     }
-
-
 }

@@ -1,9 +1,13 @@
 package model.entity;
 
+import java.util.Date;
+
 public abstract class Match {
     private String id;
     private Team homeTeam;
     private Team awayTeam;
+
+    private Date insertingTime;
 
     public Match() {
     }
@@ -40,4 +44,11 @@ public abstract class Match {
         this.awayTeam = awayTeam;
     }
 
+    public Date getInsertingTime() {
+        return insertingTime;
+    }
+
+    public void setInsertingTime(Date insertingTime) {
+        this.insertingTime = insertingTime;
+    }
 }

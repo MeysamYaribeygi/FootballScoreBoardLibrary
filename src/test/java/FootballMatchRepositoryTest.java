@@ -2,6 +2,7 @@ import model.FootballScoreBoard;
 import model.entity.FootballMatch;
 import model.entity.FootballTeam;
 import model.repository.FootballMatchRepository;
+import model.repository.MatchRepository;
 import org.junit.Before;
 import org.junit.Test;
 import util.exception.InvalidScoreException;
@@ -9,7 +10,7 @@ import util.exception.MatchAlreadyExistException;
 import util.exception.MatchNotFoundException;
 
 public class FootballMatchRepositoryTest {
-    FootballMatchRepository footballMatchRepository = new FootballMatchRepository();
+    private MatchRepository footballMatchRepository = FootballMatchRepository.getInstance();
 
     @Before
     public void matchRepositoryInitialization() {
@@ -22,7 +23,6 @@ public class FootballMatchRepositoryTest {
         } catch (MatchAlreadyExistException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test(expected = MatchAlreadyExistException.class)
