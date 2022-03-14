@@ -1,17 +1,21 @@
 package model.repository;
 
 import model.entity.Match;
+import util.exception.MatchAlreadyExistException;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class FootballMatchRepository {
-    private static ArrayList<Match> MATCHES_DATA = new ArrayList<>();
+public class FootballMatchRepository implements MatchRepository {
+    private static Map<String, Match> MATCHES_DATA = new HashMap<>();
 
-    public void addMatch(Match match){
-        MATCHES_DATA.add(match);
+    public void addMatch(Match match) throws MatchAlreadyExistException {
+        if (MATCHES_DATA.containsKey(match.getId()))
+            throw new MatchAlreadyExistException();
+        MATCHES_DATA.put(match.getId(), match);
     }
 
-    public static ArrayList<Match> getMatchesData() {
+    public static Map<String, Match> getMatchesData() {
         return MATCHES_DATA;
     }
 
