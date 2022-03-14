@@ -6,7 +6,6 @@ public abstract class Match {
     private String id;
     private Team homeTeam;
     private Team awayTeam;
-
     private Date insertingTime;
 
     public Match() {
